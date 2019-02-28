@@ -1,0 +1,908 @@
+
+
+<!doctype html>
+
+<html>
+
+<head>
+
+<title>A8C SEARCHES</title>
+
+<!-- 
+	Version 1.1 
+
+	Added various Jetpack search tools
+-->
+
+<link rel="shortcut icon" type="image/x-icon" href="http://a8c.senff.com/images/icon-automattic-2.png" sizes="16x16" />
+<link rel="icon" type="image/x-icon" href="http://a8c.senff.com/images/icon-automattic-2.png" sizes="16x16" />
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+<style type="text/css">
+
+* {
+	box-sizing:border-box;
+}
+
+body {
+	font-family:Helvetica, Arial,"Open Sans";
+	background:#ebebeb;
+}
+
+.title {
+	display: block;
+	overflow:hidden;
+	margin-right: 200px;
+}
+
+h1 {
+	float: left;
+	background-image: url('http://a8c.senff.com/images/icon-automattic-2.png');
+	background-size: auto 100%;
+	background-repeat: no-repeat;
+	background-position: left 0;
+	padding-left: 50px;
+}
+
+.title input {
+	margin: 24px 0 24px 100px;
+	color:#e0e0e0;
+}
+
+.box {
+	width:100%;
+	padding:5px 10px;
+	margin-bottom:20px;
+}
+
+.box h2 {
+	margin:0;
+	padding:0 10px;
+	height:46px;
+	line-height:46px;
+	background:#404040;
+	color:#ffffff;
+	font-size:16px;
+	cursor:pointer;
+}
+
+.box h4 {
+	margin-bottom:-10px;
+	padding-top:20px;
+	border-top:dashed 1px #0073aa;
+}
+
+
+.box .inner {
+	padding:10px;
+	border:solid 1px #c0c0c0;
+	border-top:0;
+	background:#ffffff;
+	box-shadow:0 1px 1px #c0c0c0;
+}
+
+.box.closed .inner {
+	display:none;
+}
+
+.box .handlediv {
+	float:right;
+	width:36px;
+	height:36px;
+	border:0;
+	background:transparent;
+	padding:12px 11px 14px 11px;
+	outline:none !important;
+	cursor:pointer;
+}
+
+.box .handlediv span {
+	width:0;
+	height:0;
+	border:solid 7px transparent;
+	border-bottom:solid 7px #fff;
+	display:block;
+} 
+
+.box.closed h2 {
+	box-shadow:0 1px 1px #c0c0c0;
+	cursor:pointer;
+}
+
+.box.closed .handlediv {
+	padding:20px 11px 7px 11px;	
+}
+
+.box.closed .handlediv span {
+	border-bottom:solid 7px transparent;
+	border-top:solid 7px #fff;
+}
+
+.intro {
+	font-size:13px;
+}
+
+.fields {
+  display: flex; 
+}
+
+label {
+	height:34px;
+	line-height:34px;
+	padding-right:5px;
+	white-space:nowrap;
+	font-size:14px;
+	width:70px;
+	text-align:right;
+	float:left;
+}
+
+
+input[type="password"],
+input[type="text"],
+textarea {
+	height:30px;
+	font-size:14px;
+	flex:1;
+	padding:0 5px;
+	min-width:10px;
+	margin-right:10px;
+	border: solid 1px #c0c0c0;
+    box-shadow: 0 0 10px inset #e0e0e0;
+}
+
+textarea {
+	height: 100px;
+	font-size: 14px;
+	font-family: helvetica, arial;
+	padding: 5px;
+}
+
+#copyButton,
+input[type="submit"] {
+	height:30px;
+	background-color: #21759b;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#2a95c5), to(#21759b));
+    background-image: -webkit-linear-gradient(top, #2a95c5, #21759b);
+    background-image: -moz-linear-gradient(top, #2a95c5, #21759b);
+    background-image: -ms-linear-gradient(top, #2a95c5, #21759b);
+    background-image: -o-linear-gradient(top, #2a95c5, #21759b);
+    background-image: linear-gradient(to bottom, #2a95c5, #21759b);
+    border:solid 1px #21759b;
+    border-radius:3px;
+    -webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.5);
+    box-shadow: inset 0 1px 0 rgba(120,200,230,0.5);
+    color: #fff;
+    text-decoration: none;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.1);
+	min-width:100px;
+	font-size:16px;
+}
+
+.multiple-fields {
+	display:block;
+}
+
+.multiple-fields input[type="text"]{
+	margin-bottom:5px;
+	clear:both;
+}
+
+
+@media only screen and (min-width: 700px) {
+	.box {float:left;}
+	.md-6 {width:50%;}
+	.md-6:nth-of-type(2n) {clear:both;}
+}
+
+@media only screen and (min-width: 1000px) {
+	.md-6:nth-of-type(2n+1) {clear:none;}
+
+	.lg-4 {	width:33.33333%;}
+	.lg-6 {	width:50%;}
+	.lg-3:nth-of-type(2n) {clear:both;}
+	.lg-4:nth-of-type(3n+2) {clear:both;}
+	.lg-6:nth-of-type(2n+1) {clear:both;}
+}
+
+@media only screen and (min-width: 1200px) {
+	.lg-3:nth-of-type(2n) {clear:none;}
+	.lg-4:nth-of-type(3n+2) {clear:none;}
+	.lg-6:nth-of-type(2n+1) {clear:none;}
+
+	.lg-3 {	width:25%;}
+	.lg-4 {	width:33.33333%;}
+	.lg-6 {	width:50%;}
+	.lg-3:nth-of-type(4n+2) {clear:both;}
+	.lg-6:nth-of-type(2n) {clear:both;}
+}
+
+
+.close-all,
+.open-all {
+	height:34px;
+	line-height:34px;
+	width:150px;
+	margin:24px auto 0;
+	text-align:center;
+	font-weight:bold;
+	background-color: #21759b;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#2a95c5), to(#21759b));
+    background-image: -webkit-linear-gradient(top, #2a95c5, #21759b);
+    background-image: -moz-linear-gradient(top, #2a95c5, #21759b);
+    background-image: -ms-linear-gradient(top, #2a95c5, #21759b);
+    background-image: -o-linear-gradient(top, #2a95c5, #21759b);
+    background-image: linear-gradient(to bottom, #2a95c5, #21759b);
+    border:solid 1px #21759b;
+    border-radius:3px;
+    -webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.5);
+    box-shadow: inset 0 1px 0 rgba(120,200,230,0.5);
+    color: #fff;
+    text-decoration: none;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.1);
+	min-width:100px;
+	font-size:16px;
+	float:right;
+	margin-left:5px;
+}
+
+.disabled {
+	opacity:0.5;
+	cursor:default;
+}
+
+/* --- IMAGES --- */
+
+.box h2 {
+	background-position: 5px center;
+	background-repeat: no-repeat;
+	background-size: auto 80%;
+	padding-left: 45px;
+
+}
+
+#google-support h2 {background-image:url('http://a8c.senff.com/images/icon-wordpress.png');}
+#google-forum h2 {background-image:url('http://a8c.senff.com/images/icon-wp.png');}
+#fieldguide h2 {background-image:url('http://a8c.senff.com/images/icon-automattic.png');}
+#matts-global-search h2 {background-image:url('http://a8c.senff.com/images/icon-matt.jpeg');}
+
+#darc h2 {background-image:url('http://a8c.senff.com/images/icon-darc.png');}
+#gsuite h2 {background-image:url('http://a8c.senff.com/images/icon-garc.png');}
+#wordads h2 {background-image:url('http://a8c.senff.com/images/icon-wordads.png');}
+#logstash h2 {background-image:url('http://a8c.senff.com/images/icon-logstash.png');}
+
+#pressable h2 {background-image:url('http://a8c.senff.com/images/icon-pressable.png'); padding-left: 55px;}
+#jetpack h2 {background-image:url('http://a8c.senff.com/images/icon-jetpack.png');}
+#kibana h2 {background-image:url('http://a8c.senff.com/images/icon-kibana.png');}
+#rewind h2 {background-image:url('http://a8c.senff.com/images/icon-rewind.png');}
+
+#translate h2 {background-image:url('http://a8c.senff.com/images/icon-google.png');background-size:auto 67%;  padding-left: 100px;}
+</style>
+
+</head>
+
+<body>
+
+	<a href="#" class="close-all">Close All</a>
+	<a href="#" class="open-all" disabled="disabled">Open All</a>
+
+	<div class="title">
+		<h1>Automattic Search Tool</h1>
+		<input type="text" id="copyTarget" placeholder="Text to Copy"> <button id="copyButton">Copy</button><br><br>
+	</div>
+
+	<br style="clear:both;">
+
+	<div class="box lg-3 md-6" id="google-support">
+
+		<button type="button" class="handlediv button-link" aria-expanded="true">
+			<span class="toggle-indicator" aria-hidden="true"></span>
+		</button>
+
+		<h2>Google: Support Guides</h2>
+
+		<div class="inner">
+			<div class="intro"><a href="https://en.support.wordpress.com" target="_blank">en.support.wordpress.com</a></div>
+			<p class="fields" data-url="https://www.google.ca/?gfe_rd=cr&ei=ImeWWKDTD-iM8Qf5ha_IBQ#q=site:https:%2F%2Fen.support.wordpress.com%2F+[input-1]">
+				<input type="text">
+				<input type="submit" value="Search" class="button">
+			</p>
+		</div>
+
+	</div>
+
+
+	<div class="box lg-3 md-6" id="google-forum">
+
+		<button type="button" class="handlediv button-link" aria-expanded="true">
+			<span class="toggle-indicator" aria-hidden="true"></span>
+		</button>
+
+		<h2>Google: Support Forum</h2>
+
+		<div class="inner">
+			<div class="intro"><a href="https://en.forums.wordpress.com" target="_blank">en.forums.wordpress.com</a></div>
+			<p class="fields" data-url="https://www.google.ca/?gfe_rd=cr&ei=ImeWWKDTD-iM8Qf5ha_IBQ#q=site:https:%2F%2Fen.forums.wordpress.com%2F+[input-1]">
+				<input type="text">
+				<input type="submit" value="Search" class="button">
+			</p>
+		</div>
+
+	</div>	
+
+	<div class="box lg-3 md-6" id="fieldguide">
+
+		<button type="button" class="handlediv button-link" aria-expanded="true">
+			<span class="toggle-indicator" aria-hidden="true"></span>
+		</button>
+
+		<h2>Automattic Field Guide</h2>
+
+		<div class="inner">
+			<p class="fields" data-url="https://fieldguide.automattic.com/?s=[input-1]">
+				<input type="text">
+				<input type="submit" value="Search" class="button">
+			</p>
+		</div>
+
+	</div>	
+
+
+	<div class="box lg-3 md-6" id="matts-global-search">
+
+		<button type="button" class="handlediv button-link" aria-expanded="true">
+			<span class="toggle-indicator" aria-hidden="true"></span>
+		</button>
+
+		<h2>Matt's Global Search</h2>
+
+		<div class="inner">
+			<p class="fields" data-url="https://mc.a8c.com/mgs/?q=[input-1]">
+				<input type="text">
+				<input type="submit" value="Search" class="button">
+			</p>
+
+		</div>
+
+	</div>
+
+
+	<div class="box lg-3 md-6" id="darc">
+
+		<button type="button" class="handlediv button-link" aria-expanded="true">
+			<span class="toggle-indicator" aria-hidden="true"></span>
+		</button>
+
+		<h2>DARC</h2>
+
+		<div class="inner">
+			<p class="fields" data-url="https://mc.a8c.com/tools/reportcard/domain/?domain=[input-1]">
+				<input type="text" placeholder="domain.com">
+				<input type="submit" value="Search" class="button">
+			</p>
+
+		</div>
+
+	</div>
+
+	<div class="box lg-3 md-6" id="gsuite">
+
+		<button type="button" class="handlediv button-link" aria-expanded="true">
+			<span class="toggle-indicator" aria-hidden="true"></span>
+		</button>
+
+		<h2>G Suite / GARC</h2>
+
+		<div class="inner">
+			<p class="fields" data-url="https://mc.a8c.com/tools/reportcard/google-apps/?domain=[input-1]">
+				<input type="text" placeholder="domain.com">
+				<input type="submit" value="Search" class="button">
+			</p>
+
+		</div>
+
+	</div>
+
+	<div class="box lg-3 md-6" id="wordads">
+
+		<button type="button" class="handlediv button-link" aria-expanded="true">
+			<span class="toggle-indicator" aria-hidden="true"></span>
+		</button>
+
+		<h2>WordAds</h2>
+
+		<div class="inner">
+
+			<p class="fields" data-url="https://mc.a8c.com/wordads/wordads-report.php?by_user=[input-1]">
+				<input type="text" placeholder="username">
+				<input type="submit" value="Search" class="button">
+			</p>
+
+			<p class="fields" data-url="https://mc.a8c.com/wordads/wordads-detail.php?id=[input-1]">
+				<input type="text" placeholder="blog ID">
+				<input type="submit" value="Search" class="button">
+			</p>
+
+		</div>
+
+	</div>
+
+	<div class="box lg-3 md-6" id="logstash">
+
+		<button type="button" class="handlediv button-link" aria-expanded="true">
+			<span class="toggle-indicator" aria-hidden="true"></span>
+		</button>
+
+		<h2>Logstash</h2>
+
+		<div class="inner">
+
+			<p class="fields multiple-fields" data-url="https://mc.a8c.com/logstash/?stash=mail&query=[input-1]&from=[input-2]&to=[input-3]">
+				<label>Query</label><input type="text">
+				<br>
+				<label>From:</label><input type="text" id="logstash-from">
+				<br>
+				<label>To:</label><input type="text" id="logstash-to">
+				<br>
+				<label></label>
+				<input type="submit" value="Search" class="button">
+			</p>
+
+		</div>
+
+	</div>	
+
+	<div class="box lg-3 md-6" id="kibana">
+
+		<button type="button" class="handlediv button-link" aria-expanded="true">
+			<span class="toggle-indicator" aria-hidden="true"></span>
+		</button>
+
+		<h2>Kibana</h2>
+
+		<div class="inner">
+			<p class="fields" data-url="https://logstash.pressable.net/app/kibana?#/discover?_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:now-15m,mode:quick,to:now))&_a=(columns:!(_source),index:%27php-errors-*%27,interval:auto,query:(query_string:(analyze_wildcard:!t,query:%27http_host:%22[input-1]%22%27)),sort:!(timestamp,desc))">
+				<input type="text" placeholder="domain.com">
+				<input type="submit" value="Search V1" class="button">
+			</p>
+
+			<p class="fields" data-url="https://logstash.a8c.com/kibana6/app/kibana#/discover?_g=()&_a=(columns:!(_source),index:'log2logstash-*',interval:auto,query:(language:lucene,query:'http_host:[input-1]'),sort:!('@timestamp',desc))">
+				<input type="text" placeholder="domain.com">
+				<input type="submit" value="Search V2" class="button">
+			</p>			
+
+		</div>
+
+	</div>
+
+
+	<div class="box lg-3 md-6" id="pressable">
+
+		<button type="button" class="handlediv button-link" aria-expanded="true">
+			<span class="toggle-indicator" aria-hidden="true"></span>
+		</button>
+
+		<h2>Pressable</h2>
+
+		<div class="inner">
+
+			<p class="fields" data-url="https://my.pressable.com/admin/domains?q=[input-1]">
+				<input type="text" placeholder="domain.com">
+				<input type="submit" value="Search" class="button">
+			</p>
+
+		</div>
+
+	</div>
+
+
+	<div class="box lg-3 md-6" id="jetpack">
+
+		<button type="button" class="handlediv button-link" aria-expanded="true">
+			<span class="toggle-indicator" aria-hidden="true"></span>
+		</button>
+
+		<h2>Jetpack</h2>
+
+		<div class="inner">
+
+			<p class="fields" data-url="https://jetpack.com/support/debug/?url=[input-1]">
+				<input type="text" placeholder="http://domain.com">
+				<input type="submit" value="Debug" class="button">
+			</p>
+
+			<p class="fields" data-url="https://mc.a8c.com/site-profiles/?q=[input-1]">
+				<input type="text" placeholder="domain.com">
+				<input type="submit" value="Site Search" class="button">
+			</p>
+
+			<p class="fields" data-url="https://wordpress.com/wp-admin/network/site-info.php?id=[input-1]">
+				<input type="text" placeholder="blog ID">
+				<input type="submit" value="NA" class="button">
+			</p>
+
+			<p class="fields" data-url="https://wordpress.com/wp-admin/network/admin.php?page=jetpack">
+				<a href="https://wordpress.com/wp-admin/network/admin.php?page=jetpack" target="_blank">Search Connections</a>
+			</p>			
+
+		</div>
+
+	</div>
+
+	<div class="box lg-3 md-6" id="rewind">
+
+		<button type="button" class="handlediv button-link" aria-expanded="true">
+			<span class="toggle-indicator" aria-hidden="true"></span>
+		</button>
+
+		<h2>Rewind</h2>
+
+		<div class="inner">
+
+			<p class="fields" data-url="https://mc.a8c.com/rewind/debugger.php?site=[input-1]">
+				<input type="text" placeholder="site id">
+				<input type="submit" value="Debug" class="button">
+			</p>
+
+		</div>
+
+	</div>
+
+
+
+	<br style="clear:both;">
+
+
+	<div class="box lg-4 md-12" id="translate">
+
+		<button type="button" class="handlediv button-link" aria-expanded="true">
+			<span class="toggle-indicator" aria-hidden="true"></span>
+		</button>
+
+		<h2>Translate</h2>
+
+		<div class="inner">
+
+			<p class="fields" data-url="https://translate.google.com/#auto/en/[input-1]">
+				<textarea placeholder="Ã‚Â¿Que?"></textarea>
+				<input type="submit" value="Translate" class="button">
+			</p>
+
+		</div>
+
+	</div>
+
+
+	<div class="box lg-4 md-12" id="network-admin">
+
+		<button type="button" class="handlediv button-link" aria-expanded="true">
+			<span class="toggle-indicator" aria-hidden="true"></span>
+		</button>
+
+		<h2>Network Admin</h2>
+
+		<div class="inner">
+
+			<a href="https://wordpress.com/wp-admin/network/user-new.php" target="_blank">Create new user</a>
+
+			<p class="fields" data-url="https://wordpress.com/wp-admin/network/users.php?s=[input-1]">
+				<input type="text">
+				<input type="submit" value="Users" class="button">
+			</p>
+
+			<p class="fields" data-url="https://wordpress.com/wp-admin/network/sites.php?s=[input-1]">
+				<input type="text">
+				<input type="submit" value="Sites" class="button">
+			</p>
+
+			<p class="fields" data-url="https://wordpress.com/wp-admin/network/users.php?apikey=[input-1]&submit=Search+API+Keys">
+				<input type="text">
+				<input type="submit" value="API Keys" class="button">
+			</p>
+
+			<p class="fields" data-url="https://wordpress.com/wp-admin/network/wpcom-signups.php?s=[input-1]&submit=Search+Signups">
+				<input type="text">
+				<input type="submit" value="Signups" class="button">
+			</p>
+
+			<h4>Search Upgrades/Credits</h4>
+
+			<p class="fields" data-url="https://wordpress.com/wp-admin/network/wpcom-paid-upgrades.php?action=search&username=[input-1]&submit=Search+Upgrades%2FCredits+by+User">
+				<input type="text">
+				<input type="submit" value="By User" class="button">
+			</p>
+
+			<p class="fields" data-url="https://wordpress.com/wp-admin/network/wpcom-paid-upgrades.php?action=txn_id_search&paypal_txn_id=[input-1]&submit=Search+Upgrades%2FCredits+by+Payment+Provider+Transaction+ID">
+				<input type="text">
+				<input type="submit" value="By Payment Provider Transaction ID" class="button">
+			</p>
+
+		</div>
+
+	</div>
+
+
+	<div class="box lg-4 md-12" id="store-admin">
+
+		<button type="button" class="handlediv button-link" aria-expanded="true">
+			<span class="toggle-indicator" aria-hidden="true"></span>
+		</button>
+
+		<h2>Store Admin</h2>
+
+		<div class="inner">
+
+			<p class="fields" data-url="https://wordpress.com/wp-admin/network/wpcom-paid-upgrades.php?action=search&username=[input-1]">
+				<input type="text">
+				<input type="submit" value="Users" class="button">
+			</p>
+
+			<h4>Paypal User Search</h4>
+			<p class="fields" data-url="https://wordpress.com/wp-admin/network/wpcom-paid-upgrades.php?action=paypal_user_search&paypal_email=[input-1]">
+				<input type="text" placeholder="user@domain.com">
+				<input type="submit" value="Search" class="button">
+			</p>
+
+			<h4>Transaction Search</h4>
+			<p class="fields" data-url="https://wordpress.com/wp-admin/network/wpcom-paid-upgrades.php?action=txn_id_search&paypal_txn_id=[input-1]">
+				<input type="text">
+				<input type="submit" value="Search Transaction ID" class="button">
+			</p>
+
+			<h4>Paypal Log Search</h4>
+			<p class="fields multiple-fields" data-url="https://wordpress.com/wp-admin/network/wpcom-paid-upgrades.php?action=paypal_log_search&paypal_misc&paypal_email&paypal_blog&paypal_user=[input-4]">
+				<label>Query:</label>
+				<input type="text" value="(not working yet)" disabled>
+				<br>
+				<label>Email:</label>
+				<input type="text" value="(not working yet)" disabled>
+				<br>
+				<label>Blog ID:</label>
+				<input type="text" value="(not working yet)" disabled>
+				<br>
+				<label>User ID:</label>
+				<input type="text">
+				<br>
+				<label></label>
+				<input type="submit" value="Search" class="button">
+			</p>
+
+			<h4>Blog Search</h4>
+			<p class="fields" data-url="https://wordpress.com/wp-admin/network/wpcom-paid-upgrades.php?action=blog_id_search&id=[input-1]">
+				<label>ID:</label>
+				<input type="text" placeholder="1234567">
+				<input type="submit" value="Search" class="button">
+			</p>
+
+			<p class="fields" data-url="https://wordpress.com/wp-admin/network/wpcom-paid-upgrades.php?action=blog_id_search&id=[input-1]">
+				<label>URL:</label>
+				<input type="text" placeholder="mycoolsite.wordpress.com">
+				<input type="submit" value="Search" class="button">
+			</p>
+
+
+			<h4>Mystery Transaction</h4>
+			<p class="fields multiple-fields" data-url="https://wordpress.com/wp-admin/network/wpcom-paid-upgrades.php?action=mystery_trans_search&date=[input-1]&name=[input-2]">
+				<label>Date:</label>
+				<input type="text" placeholder="YYYY-MM-DD"><span>+/- 5 days</span>
+				<br>
+				<label>Name:</label>
+				<input type="text">
+				<br>
+				<label></label>
+				<input type="submit" value="Search" class="button">
+			</p>
+
+		</div>
+
+	</div>
+
+	</div>
+
+</div>
+
+
+
+<script type="text/javascript">
+
+	$(document).ready(function() {
+
+		// Check LocalStorage and show necessary panels
+
+		if (typeof(Storage) !== "undefined") {
+			if (localStorage.length>0) {
+
+				$('.open-all').removeClass('disabled');
+				$('.close-all').removeClass('disabled');
+
+				for (var l = 0; l < localStorage.length; l++){
+					hideBox = '#'+localStorage.key(l);
+					$(hideBox).addClass('closed');
+    			}
+
+				if (localStorage.length>10) {
+					$('.close-all').addClass('disabled');
+				}
+			} else {
+				$('.open-all').addClass('disabled');
+			}
+		}
+
+
+		// Execute search
+
+		$('.box .button').on('click',function(){
+
+			var resultsURL = $(this).parent().attr('data-url');
+
+			inputs = $(this).parent().find('input[type="text"],input[type="date"],textarea').length;
+			numfields = inputs + 1;
+
+			for (i = 1; i < numfields; i++) { 
+				   inputValue = $(this).parent().find('input:nth-of-type('+i+'),textarea:nth-of-type('+i+')').val();
+				   orgString = '[input-'+i+']';
+				   resultsURL = resultsURL.replace(orgString, inputValue);
+			}
+
+			var win = window.open(resultsURL, '_blank');
+			win.focus();
+		
+		});
+
+
+		// Fallback for ENTER key
+
+		$('input[type="text"').bind("enterKey",function(e){
+	   		$(this).parent().find('input[type="submit"]').trigger('click');
+		});
+		
+		$('input[type="text"').keyup(function(e){
+	    	if(e.keyCode == 13) {
+	        	$(this).trigger("enterKey");
+	    	}
+	    });
+
+
+	    // Show/hide boxes
+
+		$('.box').on('click','.handlediv, h2',function(){
+			$(this).parent().toggleClass('closed');
+			boxID = $(this).parent().attr('id');
+
+			if (typeof(Storage) !== "undefined") {
+				if (localStorage.getItem(boxID)) {
+					localStorage.removeItem(boxID);
+					$('.close-all').removeClass('disabled');
+				} else {
+					localStorage.setItem(boxID, "hide");
+					$('.open-all').removeClass('disabled');
+				}
+
+
+				if (localStorage.length>10) {
+					$('.close-all').addClass('disabled');
+				} else if (localStorage.length < 1) {
+					$('.open-all').addClass('disabled');
+				}
+			}
+
+		});
+
+
+
+		// Close all boxes
+		
+		$('.close-all').on('click',function(e){
+			e.preventDefault();
+			$('.box').addClass('closed');
+			$(this).addClass('disabled');
+			$('.open-all').removeClass('disabled');
+			if (typeof(Storage) !== "undefined") {
+				allboxes = $('.box').length;
+				for (b = 1; b < (allboxes+1); b++) { 
+					thisBox = $('.box:nth-of-type('+b+')').attr('id');
+					localStorage.setItem(thisBox, "hide");
+				}
+			}
+		});
+
+		// Open all boxes
+
+		$('.open-all').on('click',function(f){
+			f.preventDefault();
+			$('.box').removeClass('closed');
+			$(this).addClass('disabled');
+			$('.close-all').removeClass('disabled');
+			if (typeof(Storage) !== "undefined") {
+				allboxes = $('.box').length;
+				for (b = 1; b < (allboxes+1); b++) { 
+					thisBox = $('.box:nth-of-type('+b+')').attr('id');
+					localStorage.removeItem(thisBox);
+				}
+			}
+		});
+
+
+		//  Fill logstash boxes with dates
+
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth()+1; //January is 0!
+		var yyyy = today.getFullYear();
+
+		if(dd<10) {
+		    dd = '0'+dd
+		} 
+
+		if(mm<10) {
+		    mm = '0'+mm
+		} 
+
+		today = mm + "/" + dd + "/" + yyyy;
+		nottoday = mm + "//" + yyyy;
+		$('#logstash-from').val(nottoday);
+		$('#logstash-to').val(today);
+
+
+		$("#copyButton").click(function () {
+   			copyToClipboard(document.getElementById("copyTarget"));
+		});
+
+		function copyToClipboard(elem) {
+			  // create hidden text element, if it doesn't already exist
+		    var targetId = "_hiddenCopyText_";
+		    var isInput = elem.tagName === "INPUT" || elem.tagName === "TEXTAREA";
+		    var origSelectionStart, origSelectionEnd;
+		    if (isInput) {
+		        // can just use the original source element for the selection and copy
+		        target = elem;
+		        origSelectionStart = elem.selectionStart;
+		        origSelectionEnd = elem.selectionEnd;
+		    } else {
+		        // must use a temporary form element for the selection and copy
+		        target = document.getElementById(targetId);
+		        if (!target) {
+		            var target = document.createElement("textarea");
+		            target.style.position = "absolute";
+		            target.style.left = "-9999px";
+		            target.style.top = "0";
+		            target.id = targetId;
+		            document.body.appendChild(target);
+		        }
+		        target.textContent = elem.textContent;
+		    }
+		    // select the content
+		    var currentFocus = document.activeElement;
+		    target.focus();
+		    target.setSelectionRange(0, target.value.length);
+		    
+		    // copy the selection
+		    var succeed;
+		    try {
+		    	  succeed = document.execCommand("copy");
+		    } catch(e) {
+		        succeed = false;
+		    }
+		    // restore original focus
+		    if (currentFocus && typeof currentFocus.focus === "function") {
+		        currentFocus.focus();
+		    }
+		    
+		    if (isInput) {
+		        // restore prior selection
+		        elem.setSelectionRange(origSelectionStart, origSelectionEnd);
+		    } else {
+		        // clear temporary content
+		        target.textContent = "";
+		    }
+		    return succeed;
+		}
+
+	});
+
+</script>
+
+</body>
+
+</html>
