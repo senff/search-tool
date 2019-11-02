@@ -1,5 +1,3 @@
-
-
 <!doctype html>
 
 <html>
@@ -180,6 +178,28 @@ input[type="submit"] {
 	font-size:16px;
 }
 
+input[type="submit"].woo-button {
+	background-color: #96588A;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#A16996), to(#96588A));
+	background-image: -webkit-linear-gradient(top, #A16996, #96588A);
+	background-image: -moz-linear-gradient(top, #A16996, #96588A);
+	background-image: -ms-linear-gradient(top, #A16996, #96588A);
+	background-image: -o-linear-gradient(top, #A16996, #96588A);
+	background-image: linear-gradient(to bottom, #A16996, #96588A);
+	border:solid 1px #96588A;
+}
+
+input[type="submit"].jetpack-button {
+	background-color: #55BB43;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#66cc55), to(#55BB43));
+	background-image: -webkit-linear-gradient(top, #66cc55, #55BB43);
+	background-image: -moz-linear-gradient(top, #66cc55, #55BB43);
+	background-image: -ms-linear-gradient(top, #66cc55, #55BB43);
+	background-image: -o-linear-gradient(top, #66cc55, #55BB43);
+	background-image: linear-gradient(to bottom, #66cc55, #55BB43);
+	border:solid 1px #55BB43;
+}
+
 .multiple-fields {
 	display:block;
 }
@@ -277,6 +297,8 @@ input[type="submit"] {
 #kibana h2 {background-image:url('http://a8c.senff.com/images/icon-kibana.png');}
 #rewind h2 {background-image:url('http://a8c.senff.com/images/icon-rewind.png');}
 
+#woo h2 {background-image:url('Woo.png');}
+
 #translate h2 {background-image:url('http://a8c.senff.com/images/icon-google.png');background-size:auto 67%;  padding-left: 100px;}
 </style>
 
@@ -303,10 +325,17 @@ input[type="submit"] {
 		<h2>Google: Support Guides</h2>
 
 		<div class="inner">
-			<div class="intro"><a href="https://en.support.wordpress.com" target="_blank">en.support.wordpress.com</a></div>
 			<p class="fields" data-url="https://www.google.ca/?gfe_rd=cr&ei=ImeWWKDTD-iM8Qf5ha_IBQ#q=site:https:%2F%2Fen.support.wordpress.com%2F+[input-1]">
 				<input type="text">
-				<input type="submit" value="Search" class="button">
+				<input type="submit" value="WP.com docs" class="button">
+			</p>
+			<p class="fields" data-url="https://www.google.ca/?gfe_rd=cr&ei=ImeWWKDTD-iM8Qf5ha_IBQ#q=site:https:%2F%2Fwoocommerce.com%2F+[input-1]">
+				<input type="text">
+				<input type="submit" value="WooCommerce" class="button woo-button">
+			</p>
+			<p class="fields" data-url="https://www.google.ca/?gfe_rd=cr&ei=ImeWWKDTD-iM8Qf5ha_IBQ#q=site:https:%2F%2Fjetpack.com%2F+[input-1]">
+				<input type="text">
+				<input type="submit" value="Jetpack" class="button jetpack-button">
 			</p>
 		</div>
 
@@ -554,7 +583,7 @@ input[type="submit"] {
 	<br style="clear:both;">
 
 
-	<div class="box lg-4 md-12" id="translate">
+	<div class="box lg-3 md-6" id="translate">
 
 		<button type="button" class="handlediv button-link" aria-expanded="true">
 			<span class="toggle-indicator" aria-hidden="true"></span>
@@ -574,7 +603,7 @@ input[type="submit"] {
 	</div>
 
 
-	<div class="box lg-4 md-12" id="network-admin">
+	<div class="box lg-3 md-6" id="network-admin">
 
 		<button type="button" class="handlediv button-link" aria-expanded="true">
 			<span class="toggle-indicator" aria-hidden="true"></span>
@@ -623,7 +652,37 @@ input[type="submit"] {
 	</div>
 
 
-	<div class="box lg-4 md-12" id="store-admin">
+	<div class="box lg-3 md-6" id="woo">
+
+		<button type="button" class="handlediv button-link" aria-expanded="true">
+			<span class="toggle-indicator" aria-hidden="true"></span>
+		</button>
+
+		<h2>WooCommerce</h2>
+
+		<div class="inner">
+
+			<p class="fields" data-url="https://woocommerce.com/wp-admin/users.php?s=[input-1]">
+				<input type="text" placeholder="Username">
+				<input type="submit" value="Users" class="button">
+			</p>
+
+			<p class="fields" data-url="https://woocommerce.com/wp-admin/?wpcom_user_id=[input-1]">
+				<input type="text" placeholder="WordPress.com ID">
+				<input type="submit" value="Users" class="button">
+			</p>
+
+			<p class="fields" data-url="https://woocommerce.com/wp-admin/user-edit.php?user_id=[input-1]">
+				<input type="text" placeholder="WooCommerce.com ID">
+				<input type="submit" value="Users" class="button">
+			</p>			
+
+		</div>
+
+	</div>
+
+
+	<div class="box lg-3 md-6" id="store-admin">
 
 		<button type="button" class="handlediv button-link" aria-expanded="true">
 			<span class="toggle-indicator" aria-hidden="true"></span>
